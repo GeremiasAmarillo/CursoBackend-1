@@ -1,0 +1,13 @@
+[
+  {
+    "id": "ce0e36b2-7bb4-4353-8d74-82291c330896",
+    "title": "Producto de ejemplo 1",
+    "description": "Esta es una descripción de ejemplo 1",
+    "price": 1099,
+    "thumbnail": "https://ejemplo.com/imagen.jpg",
+    "code": "123456",
+    "stock": 100,
+    "status": "true",
+    "category": "ejemplo"
+  }
+]

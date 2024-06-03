@@ -1,0 +1,19 @@
+{
+  "name": "cursobackend1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node --watch --no-warnings src/server.js",
+    "stop-windows": "taskkill /F /IM node.exe",
+    "stop-linux": "killall -9 node"
+  },
+  "author": "Geremias",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "nodemon": "^3.1.1",
+    "uuid": "^9.0.1"
+  }
+}
