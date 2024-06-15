@@ -75,8 +75,9 @@ export class ProductManager {
     if (index !== -1) {
       products.splice(index, 1);
       await fs.writeFile(this.path, JSON.stringify(products));
+      return true;
     } else {
-      console.log("Producto no encontrado!");
+      return false;
     }
   };
 }

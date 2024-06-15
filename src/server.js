@@ -59,4 +59,17 @@ socketServer.on("connection", (socket) => {
       console.error("Error al agregar producto:", error);
     }
   });
+  socket.on("eliminarProducto", async (id) => {
+    try {
+      const result = await p.deleteProduct(id);
+      if (result) {
+        sendProducts(); // Actualizar productos y enviar al cliente
+        console.log("Producto eliminado con éxito:", id);
+      } else {
+        console.error("Producto no encontrado para eliminar:", id);
+      }
+    } catch (error) {
+      console.error("Error al eliminar producto:", error);
+    }
+  });
 });

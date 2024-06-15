@@ -7,5 +7,26 @@
         "quantity": 6
       }
     ]
+  },
+  {
+    "id": "77838da1-c724-4462-9e85-688de7c90c3b",
+    "products": [
+      {
+        "product_id": "producto4",
+        "quantity": 2
+      },
+      {
+        "product_id": "producto32",
+        "quantity": 1
+      }
+    ]
+  },
+  {
+    "id": "ec7113a9-7a0d-4c2e-8805-ecc22d3f2092",
+    "products": []
+  },
+  {
+    "id": "4e2a81b6-8b2d-476a-ac49-d0f8f3df14df",
+    "products": []
   }
 ]
