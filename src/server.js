@@ -44,13 +44,13 @@ socketServer.on("connection", (socket) => {
     }
   };
 
-  sendProducts(); // Enviar productos al cliente al conectar
+  sendProducts();
 
   socket.on("agregarProducto", async (producto) => {
     try {
       const result = await p.addProduct({ ...producto });
       if (result) {
-        sendProducts(); // Actualizar productos y enviar al cliente
+        sendProducts();
         console.log("Producto agregado:", result);
       } else {
         console.error("Error al agregar producto.");
