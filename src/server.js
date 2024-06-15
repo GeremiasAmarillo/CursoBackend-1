@@ -1,7 +1,6 @@
 import express from "express";
 import { Server } from "socket.io";
 import { engine } from "express-handlebars";
-
 import { ProductManager } from "./model.manager/productManager.js";
 import { CartManager } from "./model.manager/cartManager.js";
 import { productsRouter } from "./routes/products.router.js";
@@ -9,6 +8,7 @@ import { cartsRouter } from "./routes/carts.router.js";
 import viewsRouter from "./routes/views.router.js";
 import __dirname from "./utils.js";
 
+const p = new ProductManager();
 const PORT = 8080;
 const HOST = "localhost";
 
@@ -24,20 +24,39 @@ export const cartManager = new CartManager();
 
 app.use(express.json());
 app.use("/", viewsRouter);
-app.use("/api/products", productsRouter); //http://localhost:PORT/products
+app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
 
-const expressServer = app.listen(PORT, (req, res) => {
+const expressServer = app.listen(PORT, () => {
   console.log(`Ejecutandose en http://${HOST}:${PORT}`);
 });
 
 const socketServer = new Server(expressServer);
 
+// Dentro del evento de conexión en tu servidor
 socketServer.on("connection", (socket) => {
-  console.log("Cliente conectado desde el front");
-});
+  const sendProducts = async () => {
+    try {
+      const productos = await p.getProducts(); // Obtener productos desde tu gestor de productos
+      socket.emit("productos", productos);
+    } catch (error) {
+      console.error("Error al obtener productos:", error);
+    }
+  };
 
-{
-  /* <script src="/socket.io/socket.io.js"></script>
-    <script src="/js/index.js"></script> */
-}
+  sendProducts(); // Enviar productos al cliente al conectar
+
+  socket.on("agregarProducto", async (producto) => {
+    try {
+      const result = await p.addProduct({ ...producto });
+      if (result) {
+        sendProducts(); // Actualizar productos y enviar al cliente
+        console.log("Producto agregado:", result);
+      } else {
+        console.error("Error al agregar producto.");
+      }
+    } catch (error) {
+      console.error("Error al agregar producto:", error);
+    }
+  });
+});

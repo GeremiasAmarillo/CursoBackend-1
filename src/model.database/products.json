@@ -9,5 +9,56 @@
     "stock": 100,
     "status": "true",
     "category": "ejemplo"
+  },
+  {
+    "id": "458fa7d2-dc58-4278-9f95-dc601b5b9a19",
+    "title": "Producto de ejemplo 2",
+    "description": "Esta es una descripción de ejemplo 2",
+    "price": 2222,
+    "thumbnail": "https://ejemplo.com/imagen2.jpg",
+    "code": "123456",
+    "stock": 200,
+    "status": "true",
+    "category": "ejemplo"
+  },
+  {
+    "id": "a2636192-84fa-42e6-a648-af032431a56a",
+    "title": "Producto de ejemplo 45",
+    "description": "Esta es una d46456546",
+    "price": 2245652,
+    "thumbnail": "https://ejemplo.com/imagen2.jpg",
+    "code": "123456",
+    "stock": 10,
+    "status": "false",
+    "category": "ejemplo12312"
+  },
+  {
+    "id": "77113b2d-58d5-497d-833f-98fb6c03a05f",
+    "title": "Producto2",
+    "description": "Est22",
+    "price": 222,
+    "thumbnail": "https://ejemplo.com/imagen2.jpg",
+    "code": "123456",
+    "stock": 10,
+    "status": "false",
+    "category": "ejemplo12312"
+  },
+  {
+    "id": "9e64bc46-8535-41b3-8942-75e57dc39df2",
+    "title": "123",
+    "description": "123",
+    "price": "231",
+    "code": "321",
+    "stock": "23",
+    "category": "231"
+  },
+  {
+    "id": "da9a74e7-29db-4f4c-badf-5d4b0356c525",
+    "title": "Manzana",
+    "description": "roja",
+    "price": "120",
+    "code": "124",
+    "stock": "10",
+    "category": "Frutas"
   }
 ]
