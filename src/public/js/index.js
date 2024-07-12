@@ -1,5 +1,3 @@
-const socket = io();
-
 socket.on("productos", (productos) => {
   if (Array.isArray(productos)) {
     const tbody = document.getElementById("productos-body");

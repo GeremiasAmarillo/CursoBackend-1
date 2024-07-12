@@ -1,15 +1,19 @@
 import express from "express";
 import { Server } from "socket.io";
 import { engine } from "express-handlebars";
+import "dotenv/config";
 import { ProductManager } from "./model.manager/productManager.js";
 import { CartManager } from "./model.manager/cartManager.js";
 import { productsRouter } from "./routes/products.router.js";
 import { cartsRouter } from "./routes/carts.router.js";
 import viewsRouter from "./routes/views.router.js";
 import __dirname from "./utils.js";
+import { dbconnection } from "./database/config.js";
+import { productModel } from "./models/products.js";
+import { MessageModel } from "./models/messages.js";
 
 const p = new ProductManager();
-const PORT = 8080;
+const PORT = process.env.PORT;
 const HOST = "localhost";
 
 const app = express();
@@ -27,17 +31,18 @@ app.use("/", viewsRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
 
+dbconnection();
+
 const expressServer = app.listen(PORT, () => {
-  console.log(`Ejecutandose en http://${HOST}:${PORT}`);
+  console.log(`Ejecutándose en http://${HOST}:${PORT}`);
 });
 
-const socketServer = new Server(expressServer);
+const io = new Server(expressServer); // Aquí se inicializa Socket.io correctamente
 
-// Dentro del evento de conexión en tu servidor
-socketServer.on("connection", (socket) => {
+io.on("connection", async (socket) => {
   const sendProducts = async () => {
     try {
-      const productos = await p.getProducts(); // Obtener productos desde tu gestor de productos
+      const productos = await productModel.find();
       socket.emit("productos", productos);
     } catch (error) {
       console.error("Error al obtener productos:", error);
@@ -48,10 +53,10 @@ socketServer.on("connection", (socket) => {
 
   socket.on("agregarProducto", async (producto) => {
     try {
-      const result = await p.addProduct({ ...producto });
-      if (result) {
+      const newProduct = await productModel.create({ ...producto });
+      if (newProduct) {
         sendProducts();
-        console.log("Producto agregado:", result);
+        console.log("Producto agregado:", newProduct);
       } else {
         console.error("Error al agregar producto.");
       }
@@ -59,11 +64,12 @@ socketServer.on("connection", (socket) => {
       console.error("Error al agregar producto:", error);
     }
   });
+
   socket.on("eliminarProducto", async (id) => {
     try {
-      const result = await p.deleteProduct(id);
-      if (result) {
-        sendProducts(); // Actualizar productos y enviar al cliente
+      const result = await productModel.deleteOne({ _id: id });
+      if (result.deletedCount > 0) {
+        sendProducts();
         console.log("Producto eliminado con éxito:", id);
       } else {
         console.error("Producto no encontrado para eliminar:", id);
@@ -72,4 +78,19 @@ socketServer.on("connection", (socket) => {
       console.error("Error al eliminar producto:", error);
     }
   });
+
+  // Manejo de mensajes de chat
+  socket.on("message", async (data) => {
+    try {
+      const newMessage = await MessageModel.create({ ...data });
+      if (newMessage) {
+        const messages = await MessageModel.find();
+        io.emit("messageLogs", messages); // Aquí se emite el evento a todos los clientes conectados
+      }
+    } catch (error) {
+      console.error("Error al crear mensaje:", error);
+    }
+  });
+
+  socket.broadcast.emit("nuevo_user");
 });

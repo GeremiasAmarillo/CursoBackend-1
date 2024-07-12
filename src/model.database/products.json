@@ -1,1 +1,11 @@
-[{"id":"cea03247-742f-43c5-8ace-744bd3f51442","title":"ads","description":"asd","price":"asd","code":"das","stock":"asd","category":"ads"}]
+[
+  {
+    "id": "cea03247-742f-43c5-8ace-744bd3f51442",
+    "title": "ads",
+    "description": "asd",
+    "price": "asd",
+    "code": "das",
+    "stock": "asd",
+    "category": "ads"
+  }
+]
