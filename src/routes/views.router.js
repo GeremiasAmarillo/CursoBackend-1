@@ -37,7 +37,7 @@ router.get("/products", async (req, res) => {
 
 router.get("/cart/:cid", async (req, res) => {
   try {
-    const cartId = req.params.cid; // Asegúrate de que 'cid' esté definido en la ruta
+    const cartId = req.params.cid;
     const cartProducts = await getCartProducts(cartId);
     res.render("cart", { products: cartProducts });
   } catch (error) {
