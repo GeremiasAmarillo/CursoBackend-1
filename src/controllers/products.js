@@ -3,10 +3,61 @@ import { productModel } from "../models/products.js";
 
 export const getProducts = async (req = request, res = response) => {
   try {
-    const { limit } = req.query;
-    const productos = await productModel.find().limit(Number(limit));
-    const total = await productModel.countDocuments();
-    return res.json({ total, productos });
+    let { limit = 2, page = 1, sort, query } = req.query;
+    page = page == 0 ? 1 : page;
+    page = Number(page);
+    limit = Number(limit);
+
+    const skip = (page - 1) * limit;
+    const sortOrderOptions = {
+      asc: -1,
+      desc: 1,
+    };
+    sort = sortOrderOptions[sort] || null;
+
+    try {
+      if (query) {
+        query = JSON.parse(decodeURIComponent(query));
+      }
+    } catch (error) {
+      console.log("Error al parsear:", error);
+      query = {};
+    }
+
+    const queryProducts = productModel.find(query).limit(limit).skip(skip);
+    if (sort !== null) {
+      queryProducts.sort({ price: sort });
+    }
+    const [productos, totalDocs] = await Promise.all([
+      queryProducts,
+      productModel.countDocuments(query),
+    ]);
+
+    const totalPages = Math.ceil(totalDocs / limit);
+    const hasNextPage = page < totalPages;
+    const hasPrevPage = page > 1;
+    const nextPage = hasNextPage ? page + 1 : null;
+    const prevPage = hasPrevPage ? page - 1 : null;
+
+    const result = {
+      totalDocs,
+      totalPages,
+      limit,
+      query,
+      hasNextPage,
+      hasPrevPage,
+      prevPage,
+      nextPage,
+      payload: productos,
+      prevLink: hasPrevPage
+        ? `/api/products?limit=${limit}&page=${prevPage}`
+        : null,
+      nextLink: hasNextPage
+        ? `/api/products?limit=${limit}&page=${nextPage}`
+        : null,
+    };
+
+    return res.json({ result });
   } catch (error) {
     console.log("getProducts -> ", error);
     return res.status(500).json({ msg: "Hablar con un administrador" });
@@ -41,7 +92,7 @@ export const addProduct = async (req = request, res = response) => {
       category,
     } = req.body;
 
-    if ((!title, !description, !code, !price, !stock, !category))
+    if (!title || !description || !code || !price || !stock || !category)
       return res.status(404).json({
         msg: "Los campos [title,description,code,price,stock,category] son obligatorios",
       });

@@ -1,0 +1,82 @@
+<div>
+  <h3>Lista de Productos:</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>title</th>
+        <th>Description</th>
+        <th>price</th>
+        <th>code</th>
+        <th>stock</th>
+        <th>category</th>
+        <th>status</th>
+        <th>Imagen</th>
+        <th>Agregar</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each result.payload}}
+        <tr>
+          <td>{{this.title}}</td>
+          <td>{{this.description}}</td>
+          <td>{{this.price}}</td>
+          <td>
+            {{#if this.thumbnail}}
+              <a href="{{this.thumbnail}}" target="_blank">
+                <img src="{{this.thumbnail}}" alt="img" /></a>
+            {{else}}
+              No hay imagen
+            {{/if}}
+          </td>
+          <td>{{this.code}}</td>
+          <td>{{this.stock}}</td>
+          <td>{{#if this.status}}
+              Activo
+            {{else}}
+              Desactivado
+            {{/if}}
+          </td>
+          <td>{{this.category}}</td>
+          <td>
+            <button class="cart-button" onclick="addToCart('{{this._id}}')">
+                <i class="fas fa-shopping-cart cart-icon"></i>
+            </button>
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+
+  <div class="pagination">
+    <span> Limite por Página: {{result.limit}}</span><br>
+
+    {{#if result.query}}
+    <span>Filtrado por: {{result.query}}</span><br>
+    {{/if}}
+    {{#if result.hasPrevPage}}
+      <a href="?page={{result.prevPage}}&limit={{result.limit}}{{#if result.query}}&query={{result.query}}{{/if}}" onclick="console.log(this.href)">Anterior</a>
+    {{/if}}
+
+    <span>Página {{result.page}} de {{result.totalPages}}</span>
+
+    {{#if result.hasNextPage}}
+      <a href="?page={{result.nextPage}}&limit={{result.limit}}{{#if result.query}}&query={{result.query}}{{/if}}" onclick="console.log(this.href)">Siguiente</a>
+    {{/if}}
+  </div>
+
+  <script>
+
+function addToCart(productId) {
+  console.log("Producto agregado al carrito:", productId);
+  var cartCount = document.getElementById("cart-count");
+  if (cartCount) {
+    var currentCount = parseInt(cartCount.innerText.split(":")[1].trim());
+    cartCount.innerText = "Tu carrito: " + (currentCount + 1) + " productos";
+  } else {
+    console.error("Elemento 'cart-count' no encontrado.");
+  }
+}
+
+
+  </script>
+</div>

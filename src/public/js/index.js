@@ -1,3 +1,5 @@
+const socket = io();
+
 socket.on("productos", (productos) => {
   if (Array.isArray(productos)) {
     const tbody = document.getElementById("productos-body");
@@ -7,32 +9,31 @@ socket.on("productos", (productos) => {
       const row = tbody.insertRow();
 
       row.innerHTML = `
-      <td>${producto.id}</td>
-      <td>${producto.title}</td>
-      <td>${producto.description}</td>
-      <td>${producto.price}</td>
-      <td>
-        ${
-          producto.thumbnail && producto.thumbnail.length > 0
-            ? `<img src="${producto.thumbnail[0]}" alt="Imagen del producto" />`
-            : "No hay imagen"
-        }
-      </td>
-      <td>${producto.code}</td>
-      <td>${producto.stock}</td>
-      <td>${producto.status ? "Activo" : "Desactivado"}</td>
-      <td>${producto.category}</td>
-      <td class="eliminar-button">
-        <button onclick="eliminarProducto('${producto.id}')">Eliminar</button>
-      </td>`;
+        <td>${producto._id}</td>
+        <td>${producto.title}</td>
+        <td>${producto.description}</td>
+        <td>${producto.price}</td>
+        <td>
+          ${
+            producto.thumbnail && producto.thumbnail.length > 0
+              ? `<img src="${producto.thumbnail[0]}" alt="Imagen del producto" />`
+              : "No hay imagen"
+          }
+        </td>
+        <td>${producto.code}</td>
+        <td>${producto.stock}</td>
+        <td>${producto.status ? "Activo" : "Desactivado"}</td>
+        <td>${producto.category}</td>
+        <td class="eliminar-button">
+          <button onclick="eliminarProducto('${
+            producto._id
+          }')">Eliminar</button>
+        </td>`;
     });
   } else {
     console.error("Los datos recibidos no son un array:", productos);
   }
 });
-function eliminarProducto(id) {
-  socket.emit("eliminarProducto", id);
-}
 
 const formulario = document.getElementById("producto-form");
 
@@ -59,3 +60,7 @@ formulario.addEventListener("submit", function (event) {
 
   formulario.reset();
 });
+
+function eliminarProducto(id) {
+  socket.emit("eliminarProducto", id);
+}

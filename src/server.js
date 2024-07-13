@@ -37,7 +37,7 @@ const expressServer = app.listen(PORT, () => {
   console.log(`Ejecutándose en http://${HOST}:${PORT}`);
 });
 
-const io = new Server(expressServer); // Aquí se inicializa Socket.io correctamente
+const io = new Server(expressServer);
 
 io.on("connection", async (socket) => {
   const sendProducts = async () => {
@@ -79,13 +79,13 @@ io.on("connection", async (socket) => {
     }
   });
 
-  // Manejo de mensajes de chat
+  // chat
   socket.on("message", async (data) => {
     try {
       const newMessage = await MessageModel.create({ ...data });
       if (newMessage) {
         const messages = await MessageModel.find();
-        io.emit("messageLogs", messages); // Aquí se emite el evento a todos los clientes conectados
+        io.emit("messageLogs", messages);
       }
     } catch (error) {
       console.error("Error al crear mensaje:", error);
