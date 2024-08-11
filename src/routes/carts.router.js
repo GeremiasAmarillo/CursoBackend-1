@@ -2,7 +2,7 @@ import express from "express";
 import {
   getCartProducts,
   newCart,
-  addProductToCart,
+  addProductInCart,
   deleteProductsInCart,
   updateProductInCart,
   deleteCart,
@@ -14,7 +14,7 @@ cartsRouter.post("/", newCart);
 
 cartsRouter.get("/:cid", getCartProducts);
 
-cartsRouter.post("/:cid/products/:pid", addProductToCart);
+cartsRouter.post("/:cid/products/:pid", addProductInCart);
 
 cartsRouter.delete("/:cid/products/:pid", deleteProductsInCart);
 
