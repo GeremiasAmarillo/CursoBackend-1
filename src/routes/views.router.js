@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { getCartProducts } from "../controllers/carts.js";
 import { getProductsServices } from "../services/products.service.js";
+import { getCartProductsService } from "../services/carts.service.js";
 
 const router = Router();
 
@@ -20,6 +20,19 @@ router.get("/realTimeProducts", (req, res) => {
 
 router.get("/chat", (req, res) => {
   return res.render("chat");
+});
+
+router.get("/products", async (req, res) => {
+  const result = await getProductsServices({ ...req.query });
+  return res.render("products", { title: "productos", result });
+});
+
+router.get("/cart/:cid", async (req, res) => {
+  const { cid } = req.params;
+  console.log("id del carrito: ", cid);
+
+  const carrito = await getCartProductsService(cid);
+  return res.render("cart", { title: "carrito", carrito });
 });
 
 export default router;

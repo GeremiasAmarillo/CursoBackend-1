@@ -1,7 +1,7 @@
 import { productModel } from "../models/products.js";
 
 export const getProductsServices = async ({
-  limit = 100,
+  limit = 10,
   page = 1,
   sort,
   query,
@@ -50,7 +50,8 @@ export const getProductsServices = async ({
       totalDocs,
       totalPages,
       limit,
-      query,
+      query: JSON.stringify(query),
+      page,
       hasNextPage,
       hasPrevPage,
       prevPage,

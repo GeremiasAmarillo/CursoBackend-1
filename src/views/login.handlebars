@@ -1,0 +1,29 @@
+<header>
+  <h1>Login</h1>
+</header>
+
+<main>
+  <section>
+    <form action="/login" method="post">
+      <div>
+        <label for="email">Email</label>
+        <input
+          type="email"
+          name="email"
+          id="email"
+          autocomplete="off"
+          required
+        />
+      </div>
+      <div>
+        <label for="password">Contraseña</label>
+        <input type="password" name="password" id="password" required />
+      </div>
+
+      <div>
+        <button type="submit">Login</button>
+      </div>
+    </form>
+    <p>No tiene una cuenta? <a href="/register"> Registrate </a></p>
+  </section>
+</main>
