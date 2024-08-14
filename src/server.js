@@ -1,6 +1,8 @@
 import express from "express";
 import { Server } from "socket.io";
 import { engine } from "express-handlebars";
+import session from "express-session";
+import MongoStorage from "connect-mongo";
 import "dotenv/config";
 import { dbconnection } from "./database/config.js";
 import { productModel } from "./models/products.js";
@@ -22,9 +24,22 @@ const HOST = "localhost";
 // Configuración del middleware
 app.use(express.static(__dirname + "/public"));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.engine("handlebars", engine());
 app.set("view engine", "handlebars");
 app.set("views", __dirname + "/views");
+
+app.use(
+  session({
+    storage: MongoStorage.create({
+      mongoUrl: `${process.env.URI_MONGO_DB}/${process.env.NAME_DB}`,
+      ttl: 3600,
+    }),
+    secret: process.env.SECRET_SESSION,
+    saveUninitialized: true,
+    resave: false,
+  })
+);
 
 // Rutas
 app.use("/", viewsRouter);
@@ -45,7 +60,8 @@ const io = new Server(expressServer);
 io.on("connection", async (socket) => {
   try {
     // Enviar productos al conectar el socket
-    const { payload } = await getProductsServices();
+    const limit = 50;
+    const { payload } = await getProductsServices({ limit });
     socket.emit("productos", payload);
 
     // Agregar producto

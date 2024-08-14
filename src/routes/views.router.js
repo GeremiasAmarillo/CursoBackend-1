@@ -1,38 +1,36 @@
 import { Router } from "express";
-import { getProductsServices } from "../services/products.service.js";
-import { getCartProductsService } from "../services/carts.service.js";
+import {
+  cartView,
+  chatView,
+  homeView,
+  loginGet,
+  LoginPost,
+  Logout,
+  productView,
+  realTimeProductsView,
+  registerGet,
+  registerPost,
+} from "../controllers/views.js";
+import { auth } from "../middleware/auth.js";
 
 const router = Router();
 
-router.get("/", async (req, res) => {
-  try {
-    const { payload } = await getProductsServices({});
-    return res.render("home", { productos: payload, style: "style.css" });
-  } catch (error) {
-    console.error("Error al obtener los productos:", error);
-    return res.status(500).send("Error al obtener los productos");
-  }
-});
+router.get("/", homeView);
 
-router.get("/realTimeProducts", (req, res) => {
-  return res.render("realTimeProducts");
-});
+router.get("/realTimeProducts", auth, realTimeProductsView);
 
-router.get("/chat", (req, res) => {
-  return res.render("chat");
-});
+router.get("/chat", auth, chatView);
 
-router.get("/products", async (req, res) => {
-  const result = await getProductsServices({ ...req.query });
-  return res.render("products", { title: "productos", result });
-});
+router.get("/products", auth, productView);
 
-router.get("/cart/:cid", async (req, res) => {
-  const { cid } = req.params;
-  console.log("id del carrito: ", cid);
+router.get("/cart/:cid", auth, cartView);
 
-  const carrito = await getCartProductsService(cid);
-  return res.render("cart", { title: "carrito", carrito });
-});
+router.get("/login", loginGet);
+router.post("/login", LoginPost);
+
+router.get("/register", registerGet);
+router.post("/register", registerPost);
+
+router.get("/logout", Logout);
 
 export default router;

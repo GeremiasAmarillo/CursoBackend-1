@@ -1,0 +1,14 @@
+<header>
+  <div class="header-container">
+    <h1>{{title}}</h1>
+    <nav>
+      {{#if user}}
+        <p>Bienvenido, {{user}}</p>
+        <a href="/logout">Cerrar sesion</a>
+      {{else}}
+        <a href="/login">Iniciar sesion</a>
+        <a href="/register">Registrarse</a>
+      {{/if}}
+    </nav>
+  </div>
+</header>
