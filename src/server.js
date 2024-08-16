@@ -3,6 +3,7 @@ import { Server } from "socket.io";
 import { engine } from "express-handlebars";
 import session from "express-session";
 import MongoStorage from "connect-mongo";
+import passport from "passport";
 import "dotenv/config";
 import { dbconnection } from "./database/config.js";
 import { productModel } from "./models/products.js";
@@ -15,10 +16,11 @@ import {
   addProductServices,
   getProductsServices,
 } from "./services/products.service.js";
+import { initializarPassport } from "./config/passport.js";
 
 // Inicialización de la aplicación
 const app = express();
-const PORT = process.env.PORT || 3000; // Valor predeterminado si no está en el archivo .env
+const PORT = process.env.PORT || 3000;
 const HOST = "localhost";
 
 // Configuración del middleware
@@ -29,9 +31,10 @@ app.engine("handlebars", engine());
 app.set("view engine", "handlebars");
 app.set("views", __dirname + "/views");
 
+// Configuración de express-session
 app.use(
   session({
-    storage: MongoStorage.create({
+    store: MongoStorage.create({
       mongoUrl: `${process.env.URI_MONGO_DB}/${process.env.NAME_DB}`,
       ttl: 3600,
     }),
@@ -40,6 +43,11 @@ app.use(
     resave: false,
   })
 );
+
+// Inicializar Passport después de la sesión
+initializarPassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Rutas
 app.use("/", viewsRouter);

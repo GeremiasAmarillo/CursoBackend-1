@@ -1,108 +1,55 @@
-h1 {
-  text-align: center;
-  font-size: 36px;
-  margin-bottom: 10px;
-  color: #333;
-  background-color: #97d19a;
+header {
+  background-color: #333;
+  color: #fff;
+  padding: 10px 0;
 }
 
-h2 {
-  text-align: center;
-  font-size: 24px;
-  margin-bottom: 20px;
-  color: #666;
-}
-
-h3 {
-  text-align: center;
-  font-size: 24px;
-  margin-bottom: 20px;
-  color: #666;
-}
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
-}
-
-thead {
-  background-color: #f2f2f2;
-}
-
-th,
-td {
-  padding: 12px 15px;
-  text-align: left;
-}
-
-.eliminar-button button {
-  background-color: #dc3545;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.eliminar-button button:hover {
-  background-color: #c82333;
-}
-
-th {
-  background-color: #4caf50;
-  color: white;
-  font-weight: bold;
-}
-
-tbody tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-
-tbody tr:hover {
-  background-color: #f2f2f2;
-}
-
-h2 {
-  margin-bottom: 20px;
-}
-
-form {
-  max-width: 400px;
+.header-container {
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #cccccc;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+h1 {
+  font-size: 24px;
+  margin: 0;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-link {
+  color: #fff;
+  text-decoration: none;
+  padding: 8px 15px;
   border-radius: 5px;
-  background-color: #d2ecd3;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-label {
-  display: block;
-  margin-bottom: 10px;
-  font-weight: bold;
+.nav-link:hover {
+  background-color: #f57c00;
+  color: #fff;
+}
+.welcome-message {
+  margin: 0;
+  font-size: 18px;
 }
 
-input[type="text"] {
-  width: calc(100% - 20px);
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  font-size: 16px;
+.avatar-de-github {
+  display: flex;
+  align-items: center;
 }
 
-button[type="submit"] {
-  width: 100%;
-  padding: 10px;
-  background-color: green;
-  color: white;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-button[type="submit"]:hover {
-  background-color: #45a049;
+.avatar-de-github img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  margin-left: 10px;
 }

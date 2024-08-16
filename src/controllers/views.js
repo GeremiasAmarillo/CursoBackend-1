@@ -1,8 +1,6 @@
 import { request, response } from "express";
 import { getProductsServices } from "../services/products.service.js";
 import { getCartProductsService } from "../services/carts.service.js";
-import { getUserEmail, registerUser } from "../services/user.service.js";
-
 export const homeView = async (req = request, res = response) => {
   try {
     const limit = 50;
@@ -49,52 +47,41 @@ export const cartView = async (req = request, res = response) => {
 };
 
 export const loginGet = async (req = request, res = response) => {
+  if (req.session.user) return res.redirect("/");
+
   return res.render("login", { title: "login" });
 };
 
 export const registerGet = async (req = request, res = response) => {
+  if (req.session.user) return res.redirect("/");
+
   return res.render("register", { title: "register" });
 };
 
 export const registerPost = async (req = request, res = response) => {
-  const { password, confirmPassword } = req.body;
-
-  if (password !== confirmPassword) return res.redirect("/register");
-
-  const user = await registerUser({ ...req.body });
-
-  if (user) {
-    const userName = `${user.name} ${user.lastName}`;
-    req.session.user = userName;
-    req.session.rol = user.rol;
-    return res.redirect("/");
+  if (!req.user) {
+    return res.redirect("/register");
   }
-
-  return res.redirect("/register");
-};
-
-export const LoginPost = async (req, res) => {
-  const { email, password } = req.body;
-  // Verificar si el email y la contraseña están presentes
-  if (!email || !password) {
-    return res.status(400).send("Faltan datos en la solicitud");
-  }
-
-  const user = await getUserEmail(email);
-
-  console.log({ user });
-
-  if (user && user.password === password) {
-    const userName = `${user.name} ${user.lastName}`;
-    req.session.user = userName;
-    req.session.rol = user.rol;
-    return res.redirect("/");
-  }
-
   return res.redirect("/login");
 };
 
-export const Logout = async (req, res) => {
+export const Login = async (req = request, res = response) => {
+  if (!req.user) {
+    return res.redirect("/login");
+  }
+
+  req.session.user = {
+    name: req.user.name,
+    lastName: req.user.lastName,
+    email: req.user.email,
+    rol: req.user.rol,
+    avatar: req.user.avatar,
+  };
+
+  return res.redirect("/");
+};
+
+export const Logout = async (req = request, res = response) => {
   req.session.destroy((err) => {
     if (err) {
       return res.send({ status: false, body: err });

@@ -26,20 +26,16 @@ export const addProductInCartService = async (cid, pid) => {
       return null;
     }
 
-    // Busca si el producto ya está en el carrito
     const productoInCart = carrito.products.find(
       (p) => p.id.toString() === pid
     );
 
     if (productoInCart) {
-      // Si el producto ya está, incrementa la cantidad
       productoInCart.quantity++;
     } else {
-      // Si el producto no está, lo agrega con cantidad 1
       carrito.products.push({ id: pid, quantity: 1 });
     }
 
-    // Guarda los cambios en el carrito
     await carrito.save();
 
     return carrito;

@@ -3,15 +3,16 @@ import {
   cartView,
   chatView,
   homeView,
+  Login,
   loginGet,
-  LoginPost,
   Logout,
   productView,
   realTimeProductsView,
   registerGet,
   registerPost,
 } from "../controllers/views.js";
-import { auth } from "../middleware/auth.js";
+import { admin, auth } from "../middleware/auth.js";
+import passport from "passport";
 
 const router = Router();
 
@@ -26,11 +27,32 @@ router.get("/products", auth, productView);
 router.get("/cart/:cid", auth, cartView);
 
 router.get("/login", loginGet);
-router.post("/login", LoginPost);
 
 router.get("/register", registerGet);
-router.post("/register", registerPost);
 
 router.get("/logout", Logout);
+
+router.post(
+  "/register",
+  passport.authenticate("register", { failureRedirect: "/register" }),
+  registerPost
+);
+router.post(
+  "/login",
+  passport.authenticate("login", { failureRedirect: "/login" }),
+  Login
+);
+
+router.get(
+  "/github",
+  passport.authenticate("github", { scope: ["user:email"] }),
+  async (req, res) => {}
+);
+
+router.get(
+  "/login-github-callback",
+  passport.authenticate("github", { failureRedirect: "/register" }),
+  Login
+);
 
 export default router;
