@@ -1,4 +1,5 @@
 import { request, response } from "express";
+/*
 import {
   addProductInCartService,
   deleteCartService,
@@ -6,12 +7,13 @@ import {
   getCartProductsService,
   newCartService,
   updateProductInCartService,
-} from "../services/carts.service.js";
+} from "../services/carts.service.js"; */
+import { CartRepository } from "../repositories/index.js";
 
 export const getCartProducts = async (req = request, res = response) => {
   try {
     const { cid } = req.params;
-    const carrito = await getCartProductsService(cid);
+    const carrito = await CartRepository.getCartById(cid);
 
     if (carrito) {
       return res.json({ carrito });
@@ -26,7 +28,7 @@ export const getCartProducts = async (req = request, res = response) => {
 
 export const newCart = async (req = request, res = response) => {
   try {
-    const carrito = await newCartService();
+    const carrito = await CartRepository.newCart();
     return res.json({ msg: "Carrito creado", carrito });
   } catch (error) {
     return res.status(500).json({ msg: "Hablar con un administrador" });
@@ -36,7 +38,7 @@ export const newCart = async (req = request, res = response) => {
 export const addProductInCart = async (req = request, res = response) => {
   try {
     const { cid, pid } = req.params;
-    const carrito = await addProductInCartService(cid, pid);
+    const carrito = await CartRepository.addProductInCart(cid, pid);
 
     if (!carrito) {
       return res
@@ -52,7 +54,7 @@ export const addProductInCart = async (req = request, res = response) => {
 export const deleteProductsInCart = async (req = request, res = response) => {
   try {
     const { cid, pid } = req.params;
-    const carrito = await deleteProductsInCartService(cid, pid);
+    const carrito = await CartRepository.deleteProductsInCart(cid, pid);
 
     if (!carrito) {
       return res.status(404).json({ msg: "No se pudo hacer la operacion" });
@@ -77,7 +79,11 @@ export const updateProductInCart = async (req = request, res = response) => {
         msg: "La propiedad queantity es obligatoriay debe obtener un numero entero",
       });
 
-    const carrito = await updateProductInCartService(cid, pid, quantity);
+    const carrito = await CartRepository.updateProductInCart(
+      cid,
+      pid,
+      quantity
+    );
 
     if (!carrito) {
       return res.status(404).json({ msg: "No se pudo actualizar el carrito" });
@@ -91,7 +97,7 @@ export const updateProductInCart = async (req = request, res = response) => {
 export const deleteCart = async (req = request, res = response) => {
   try {
     const { cid } = req.params;
-    const deletedCart = await deleteCartService(cid);
+    const deletedCart = await CartRepository.deleteCart(cid);
 
     if (!deletedCart) {
       return res

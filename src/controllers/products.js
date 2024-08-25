@@ -6,10 +6,11 @@ import {
   getProductsServices,
   updateProductServices,
 } from "../services/products.service.js";
+import { ProductRepository } from "../repositories/index.js";
 
 export const getProducts = async (req = request, res = response) => {
   try {
-    const result = await getProductsServices(req.query);
+    const result = await ProductRepository.getProducts(req.query);
     return res.json({ result });
   } catch (error) {
     return res
@@ -21,7 +22,7 @@ export const getProducts = async (req = request, res = response) => {
 export const getProductsById = async (req = request, res = response) => {
   try {
     const { pid } = req.params;
-    const producto = await getProductsByIdServices(pid);
+    const producto = await ProductRepository.getProductsById(pid);
     if (!producto)
       return res
         .status(404)
@@ -42,7 +43,7 @@ export const addProduct = async (req = request, res = response) => {
         msg: "Los campos [title,description,code,price,stock,category] son obligatorios",
       });
 
-    const producto = await addProductServices({ ...req.body });
+    const producto = await ProductRepository.addProduct({ ...req.body });
     return res.json({ producto });
   } catch (error) {
     return res.status(500).json({ msg: "Hablar con un administrador" });
@@ -54,7 +55,7 @@ export const updateProduct = async (req = request, res = response) => {
     const { pid } = req.params;
     const { _id, ...rest } = req.body;
 
-    const producto = await updateProductServices(pid, rest);
+    const producto = await ProductRepository.updateProduct(pid, rest);
     if (producto) return res.json({ msg: "Producto actualizado", producto });
     return res
       .status(404)
@@ -68,12 +69,11 @@ export const deleteProduct = async (req = request, res = response) => {
   try {
     const { pid } = req.params;
 
-    // Verificar si pid está definido
     if (!pid) {
       return res.status(400).json({ msg: 'El parámetro "pid" es requerido' });
     }
 
-    const producto = await deleteProductServices(pid);
+    const producto = await ProductRepository.deleteProduct(pid);
     if (producto) {
       return res.json({ msg: "Producto eliminado", producto });
     } else {
