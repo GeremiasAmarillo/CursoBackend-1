@@ -1,11 +1,7 @@
 import passport from "passport";
 import local from "passport-local";
 import GitHubStrategy from "passport-github2";
-import {
-  getUserById,
-  getUserEmail,
-  registerUser,
-} from "../services/user.service.js";
+import { UserRepository } from "../repositories/index.js";
 import { createHash, isValidPassword } from "../utils/bcrypt.js";
 
 const LocalStrategy = local.Strategy;
@@ -23,7 +19,7 @@ export const initializarPassport = () => {
             console.log("No coinciden las contraseñas");
             return done(null, false);
           }
-          const user = await getUserEmail(username);
+          const user = await UserRepository.getUserEmail(username);
 
           if (user) {
             console.log("El usuario ya existe");
@@ -32,7 +28,7 @@ export const initializarPassport = () => {
 
           req.body.password = createHash(password);
 
-          const newUser = await registerUser({ ...req.body });
+          const newUser = await UserRepository.registerUser({ ...req.body });
 
           if (newUser) {
             return done(null, newUser);
@@ -51,7 +47,7 @@ export const initializarPassport = () => {
       { usernameField: "email" },
       async (username, password, done) => {
         try {
-          const user = await getUserEmail(username);
+          const user = await UserRepository.getUserEmail(username);
 
           if (!user) {
             console.log("El usuario no existe");
@@ -76,7 +72,7 @@ export const initializarPassport = () => {
   });
 
   passport.deserializeUser(async (id, done) => {
-    const user = await getUserById(id);
+    const user = await UserRepository.getUserById(id);
     done(null, user);
   });
 
@@ -91,7 +87,7 @@ export const initializarPassport = () => {
       async (accessToken, refreshToken, profile, done) => {
         try {
           const email = profile._json.email;
-          let user = await getUserEmail(email);
+          let user = await UserRepository.getUserEmail(email);
 
           if (user) {
             return done(null, user);
@@ -105,7 +101,7 @@ export const initializarPassport = () => {
             github: true,
           };
 
-          const result = await registerUser({ ...newUser });
+          const result = await UserRepository.registerUser({ ...newUser });
 
           return done(null, result);
         } catch (error) {

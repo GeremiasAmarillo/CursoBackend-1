@@ -6,17 +6,14 @@ import MongoStorage from "connect-mongo";
 import passport from "passport";
 import "dotenv/config";
 import { dbconnection } from "./database/config.js";
-import { productModel } from "./models/products.js";
-import { MessageModel } from "./models/messages.js";
+import { MessageModel } from "./daos/mongo/models/messages.models.js";
 import viewsRouter from "./routes/views.router.js";
-import { productsRouter } from "./routes/products.router.js";
-import { cartsRouter } from "./routes/carts.router.js";
+/* import { productsRouter } from "./routes/products.router.js";
+import { cartsRouter } from "./routes/carts.router.js"; */
 import __dirname from "./utils.js";
-import {
-  addProductServices,
-  getProductsServices,
-} from "./services/products.service.js";
+import { ProductRepository } from "./repositories/index.js";
 import { initializarPassport } from "./config/passport.js";
+import { productsRouter, cartsRouter, authRouter } from "./routes/index.js";
 
 // Inicialización de la aplicación
 const app = express();
@@ -52,6 +49,7 @@ app.use(passport.session());
 // Rutas
 app.use("/", viewsRouter);
 app.use("/api/products", productsRouter);
+app.use("/api/auth", authRouter);
 app.use("/api/carts", cartsRouter);
 
 // Conexión a la base de datos
@@ -66,57 +64,56 @@ const expressServer = app.listen(PORT, () => {
 const io = new Server(expressServer);
 
 io.on("connection", async (socket) => {
+  console.log("Usuario conectado");
+
+  // Enviar productos al conectar el socket
   try {
-    // Enviar productos al conectar el socket
     const limit = 50;
-    const { payload } = await getProductsServices({ limit });
+    const { payload } = await ProductRepository.getProducts({ limit });
     socket.emit("productos", payload);
-
-    // Agregar producto
-    socket.on("agregarProducto", async (producto) => {
-      try {
-        const newProduct = await addProductServices(producto);
-        if (newProduct) {
-          const { payload: updatedProducts } = await getProductsServices();
-          io.emit("productos", updatedProducts);
-        }
-      } catch (error) {
-        console.error("Error al agregar producto:", error);
-      }
-    });
-
-    // Eliminar producto
-    socket.on("eliminarProducto", async (id) => {
-      try {
-        const result = await productModel.deleteOne({ _id: id });
-        if (result.deletedCount > 0) {
-          const { payload: updatedProducts } = await getProductsServices();
-          io.emit("productos", updatedProducts);
-          console.log("Producto eliminado con éxito:", id);
-        } else {
-          console.error("Producto no encontrado para eliminar:", id);
-        }
-      } catch (error) {
-        console.error("Error al eliminar producto:", error);
-      }
-    });
-
-    // Chat
-    socket.on("message", async (data) => {
-      try {
-        const newMessage = await MessageModel.create({ ...data });
-        if (newMessage) {
-          const messages = await MessageModel.find();
-          io.emit("messageLogs", messages);
-        }
-      } catch (error) {
-        console.error("Error al crear mensaje:", error);
-      }
-    });
-
-    // Notificar a otros usuarios sobre un nuevo usuario
-    socket.broadcast.emit("nuevo_user");
   } catch (error) {
-    console.error("Error en la conexión de Socket.IO:", error);
+    console.error("Error al obtener productos:", error);
   }
+
+  // Agregar producto
+  socket.on("agregarProducto", async (producto) => {
+    try {
+      const newProduct = await ProductRepository.addProduct(producto);
+      if (newProduct) {
+        const { payload: updatedProducts } =
+          await ProductRepository.getProducts();
+        io.emit("productos", updatedProducts);
+      }
+    } catch (error) {
+      console.error("Error al agregar producto:", error);
+    }
+  });
+
+  // Eliminar producto
+  socket.on("eliminarProducto", async (id) => {
+    try {
+      await ProductRepository.deleteProduct(id);
+      const { payload: updatedProducts } =
+        await ProductRepository.getProducts();
+      io.emit("productos", updatedProducts);
+    } catch (error) {
+      console.error("Error al eliminar producto:", error);
+    }
+  });
+
+  // Chat
+  socket.on("message", async (data) => {
+    try {
+      const newMessage = await MessageModel.create({ ...data });
+      if (newMessage) {
+        const messages = await MessageModel.find();
+        io.emit("messageLogs", messages);
+      }
+    } catch (error) {
+      console.error("Error al crear mensaje:", error);
+    }
+  });
+
+  // Notificar a otros usuarios sobre un nuevo usuario
+  socket.broadcast.emit("nuevo_user");
 });

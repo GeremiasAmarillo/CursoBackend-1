@@ -20,8 +20,9 @@ const CartSchema = new Schema({
 
 CartSchema.set("toJSON", {
   transform: function (doc, ret) {
+    delete ret._v;
     return ret;
   },
 });
 
-export const cartModel = model(nameCollection, CartSchema);
+export const cartModel = model(nameCollection, CartSchema); // Named export

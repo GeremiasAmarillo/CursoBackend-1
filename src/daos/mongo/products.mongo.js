@@ -1,4 +1,4 @@
-import { productModel } from "./models/products.js";
+import { productModel } from "./models/products.models.js";
 
 export const getProducts = async ({
   limit = 10,

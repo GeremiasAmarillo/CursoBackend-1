@@ -1,25 +1,26 @@
-import express from "express";
+import { Router } from "express";
 import {
   getCartProducts,
-  newCart,
   addProductInCart,
   deleteProductsInCart,
   updateProductInCart,
   deleteCart,
 } from "../controllers/carts.js";
+import { validateJWT } from "../middleware/auth.js";
+import { completePurchase } from "../controllers/carts.js";
 
-const cartsRouter = express.Router();
+const cartsRouter = Router();
 
-cartsRouter.post("/", newCart);
+cartsRouter.get("/:cid", validateJWT, getCartProducts);
 
-cartsRouter.get("/:cid", getCartProducts);
+cartsRouter.post("/:cid/products/:pid", validateJWT, addProductInCart);
 
-cartsRouter.post("/:cid/products/:pid", addProductInCart);
+cartsRouter.post("/:cid/purchase", validateJWT, completePurchase);
 
-cartsRouter.delete("/:cid/products/:pid", deleteProductsInCart);
+cartsRouter.delete("/:cid/products/:pid", validateJWT, deleteProductsInCart);
 
-cartsRouter.put("/:cid/products/:pid", updateProductInCart);
+cartsRouter.put("/:cid/products/:pid", validateJWT, updateProductInCart);
 
-cartsRouter.delete("/:cid", deleteCart);
+cartsRouter.delete("/:cid", validateJWT, deleteCart);
 
 export { cartsRouter };

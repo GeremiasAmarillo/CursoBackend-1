@@ -1,3 +1,3 @@
-export * as UserDAO from "./mongo/user.service.js";
-export * as ProductDao from "./mongo/products.service.js";
-export * as CartDao from "./mongo/carts.service.js";
+export * as UserDao from "./mongo/user.mongo.js";
+export * as ProductDao from "./mongo/products.mongo.js";
+export * as CartDao from "./mongo/carts.mongo.js";

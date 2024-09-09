@@ -1,11 +1,4 @@
 import { request, response } from "express";
-import {
-  addProductServices,
-  deleteProductServices,
-  getProductsByIdServices,
-  getProductsServices,
-  updateProductServices,
-} from "../services/products.service.js";
 import { ProductRepository } from "../repositories/index.js";
 
 export const getProducts = async (req = request, res = response) => {
@@ -37,11 +30,6 @@ export const getProductsById = async (req = request, res = response) => {
 export const addProduct = async (req = request, res = response) => {
   try {
     const { title, description, price, code, stock, category } = req.body;
-
-    if (!title || !description || !code || !price || !stock || !category)
-      return res.status(404).json({
-        msg: "Los campos [title,description,code,price,stock,category] son obligatorios",
-      });
 
     const producto = await ProductRepository.addProduct({ ...req.body });
     return res.json({ producto });
