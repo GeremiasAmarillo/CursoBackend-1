@@ -4,12 +4,8 @@ import {
   UserRepository,
 } from "../repositories/index.js";
 import { request, response } from "express";
-import { cartModel } from "../daos/mongo/models/carts.models.js"; // Verifica la ruta
-import { productModel } from "../daos/mongo/models/products.models.js"; // Verifica la ruta
-import { ticketModel } from "../daos/mongo/models/ticket.model.js"; // Verifica la ruta
-
-// Generador de códigos únicos
-const generateUniqueCode = () => Math.random().toString(36).substr(2, 9);
+import { cartModel } from "../daos/mongo/models/carts.models.js";
+import { productModel } from "../daos/mongo/models/products.models.js";
 
 export const getCartProducts = async (req = request, res = response) => {
   try {
@@ -39,80 +35,21 @@ export const getCartProducts = async (req = request, res = response) => {
   }
 };
 
-export const completePurchase = async (req, res) => {
-  try {
-    const cartId = req.params.cid;
-    const cart = await cartModel.findById(cartId).populate("products.id");
-
-    if (!cart) {
-      return res.status(404).json({ msg: "Carrito no encontrado" });
-    }
-
-    const purchasedProducts = [];
-    const failedProducts = [];
-
-    let totalAmount = 0;
-
-    for (const item of cart.products) {
-      const product = await productModel.findById(item.id);
-
-      if (!product) {
-        failedProducts.push(item.id);
-        continue;
-      }
-
-      if (product.stock >= item.quantity) {
-        product.stock -= item.quantity;
-        await product.save();
-        purchasedProducts.push(item);
-        totalAmount += item.quantity * product.price; // Usa product.price
-      } else {
-        failedProducts.push(item.id);
-      }
-    }
-
-    const ticket = await ticketModel.create({
-      code: generateUniqueCode(), // Implementa una función para generar un código único
-      purchase_datetime: new Date(),
-      amount: totalAmount,
-      purchaser: req.user.email, // Accede al email desde req.user
-    });
-
-    if (failedProducts.length > 0) {
-      cart.products = cart.products.filter((item) =>
-        failedProducts.includes(item.id)
-      );
-      await cart.save();
-    } else {
-      // Usa deleteOne en lugar de remove
-      await cart.deleteOne();
-    }
-
-    res.status(200).json({ ticket, failedProducts });
-  } catch (error) {
-    console.error("Error al completar la compra:", error);
-    res.status(500).json({ msg: "Error al completar la compra", error });
-  }
-};
-
 export const addProductInCart = async (req = request, res = response) => {
   try {
-    const { _id } = req; // ID del usuario (asegúrate de que _id esté definido correctamente)
-    const { cid, pid } = req.params; // ID del carrito y producto
+    const { _id } = req;
+    const { cid, pid } = req.params;
 
-    // Buscar el carrito por ID
-    const cart = await cartModel.findById(cid); // Usa cartModel
+    const cart = await cartModel.findById(cid);
     if (!cart) {
       return res.status(404).json({ ok: false, msg: "Carrito no válido" });
     }
 
-    // Buscar el producto por ID
-    const product = await productModel.findById(pid); // Usa productModel
+    const product = await productModel.findById(pid);
     if (!product) {
       return res.status(404).json({ ok: false, msg: "Producto no válido" });
     }
 
-    // Agregar el producto al carrito
     const existingProduct = cart.products.find((p) => p.id.toString() === pid);
     if (existingProduct) {
       existingProduct.quantity += 1;

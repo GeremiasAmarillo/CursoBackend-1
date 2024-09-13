@@ -8,8 +8,6 @@ import "dotenv/config";
 import { dbconnection } from "./database/config.js";
 import { MessageModel } from "./daos/mongo/models/messages.models.js";
 import viewsRouter from "./routes/views.router.js";
-/* import { productsRouter } from "./routes/products.router.js";
-import { cartsRouter } from "./routes/carts.router.js"; */
 import __dirname from "./utils.js";
 import { ProductRepository } from "./repositories/index.js";
 import { initializarPassport } from "./config/passport.js";

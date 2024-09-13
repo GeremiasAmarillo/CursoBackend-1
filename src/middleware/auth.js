@@ -35,7 +35,7 @@ export const validateJWT = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = await User.findById(decoded.id); // Ajusta según tu esquema de usuario
+    req.user = await User.findById(decoded.id);
     next();
   } catch (error) {
     return res.status(401).json({ msg: "Token inválido" });
