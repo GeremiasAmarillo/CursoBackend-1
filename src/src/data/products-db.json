@@ -1,0 +1,212 @@
+[
+  {
+    "title": "Auriculares Increíbles",
+    "description": "Experimenta una calidad de sonido superior con estos auriculares con cancelación de ruido.",
+    "price": 199.99,
+    "code": "ABC123",
+    "status": true,
+    "stock": 50,
+    "category": "Electrónica",
+    "thumbnails": ["images/headphones1.jpg", "images/headphones2.jpg"]
+  },
+  {
+    "title": "Reloj Elegante",
+    "description": "Este reloj elegante añade un toque de sofisticación a cualquier atuendo.",
+    "price": 79.95,
+    "code": "DEF456",
+    "status": true,
+    "stock": 25,
+    "category": "Moda",
+    "thumbnails": ["images/watch1.jpg", "images/watch2.jpg"]
+  },
+  {
+    "title": "Zapatillas Cómodas",
+    "description": "Camina con comodidad y estilo con estas zapatillas transpirables.",
+    "price": 49.99,
+    "code": "GHI789",
+    "status": true,
+    "stock": 100,
+    "category": "Zapatos",
+    "thumbnails": ["images/sneakers1.jpg", "images/sneakers2.jpg"]
+  },
+  {
+    "title": "Altavoz Inteligente para el Hogar",
+    "description": "Controla tu hogar inteligente con comandos de voz usando este altavoz.",
+    "price": 99.99,
+    "code": "JKL012",
+    "status": true,
+    "stock": 75,
+    "category": "Electrónica",
+    "thumbnails": ["images/speaker1.jpg", "images/speaker2.jpg"]
+  },
+  {
+    "title": "Mochila Duradera",
+    "description": "Lleva todos tus esenciales en esta espaciosa y resistente mochila.",
+    "price": 54.99,
+    "code": "MNO345",
+    "status": true,
+    "stock": 30,
+    "category": "Viajes",
+    "thumbnails": ["images/backpack1.jpg", "images/backpack2.jpg"]
+  },
+  {
+    "title": "Auriculares para Juegos",
+    "description": "Sumérgete en tus juegos con estos auriculares de alta calidad.",
+    "price": 149.99,
+    "code": "PQR678",
+    "status": true,
+    "stock": 40,
+    "category": "Electrónica",
+    "thumbnails": ["images/headset1.jpg", "images/headset2.jpg"]
+  },
+  {
+    "title": "Portátil Elegante",
+    "description": "Mejora tu productividad con este portátil potente y ligero.",
+    "price": 799.99,
+    "code": "STU901",
+    "status": true,
+    "stock": 15,
+    "category": "Electrónica",
+    "thumbnails": ["images/laptop1.jpg", "images/laptop2.jpg"]
+  },
+  {
+    "title": "Abrigo de Invierno Cálido",
+    "description": "Mantente abrigado en cualquier clima con este abrigo aislante y elegante.",
+    "price": 129.99,
+    "code": "VWX234",
+    "status": true,
+    "stock": 60,
+    "category": "Ropa",
+    "thumbnails": ["images/coat1.jpg", "images/coat2.jpg"]
+  },
+  {
+    "title": "Auriculares Inalámbricos",
+    "description": "Disfruta de libertad de movimiento con estos auriculares inalámbricos.",
+    "price": 74.99,
+    "code": "YZ567",
+    "status": true,
+    "stock": 85,
+    "category": "Electrónica",
+    "thumbnails": ["images/earphones1.jpg", "images/earphones2.jpg"]
+  },
+  {
+    "title": "Esterilla de Yoga Cómoda",
+    "description": "Mejora tu práctica de yoga con esta esterilla de apoyo y antideslizante.",
+    "price": 29.99,
+    "code": "ABC890",
+    "status": true,
+    "stock": 90,
+    "category": "Deportes y Fitness",
+    "thumbnails": ["images/yoga_mat1.jpg", "images/yoga_mat2.jpg"]
+  },
+  {
+    "title": "Cámara Profesional",
+    "description": "Captura fotos y videos impresionantes con esta cámara de alta resolución.",
+    "price": 899.99,
+    "code": "DEF1234",
+    "status": true,
+    "stock": 20,
+    "category": "Electrónica",
+    "thumbnails": ["images/camera1.jpg", "images/camera2.jpg"]
+  },
+  {
+    "title": "Gafas de Sol Elegantes",
+    "description": "Protege tus ojos con estilo con estas gafas de sol de moda.",
+    "price": 59.99,
+    "code": "GHI4567",
+    "status": true,
+    "stock": 45,
+    "category": "Accesorios",
+    "thumbnails": ["images/sunglasses1.jpg", "images/sunglasses2.jpg"]
+  },
+  {
+    "title": "Maleta de Viaje Duradera",
+    "description": "Viaja con confianza con esta maleta rígida que puede soportar cualquier aventura.",
+    "price": 199.99,
+    "code": "JKL7890",
+    "status": true,
+    "stock": 35,
+    "category": "Viajes",
+    "thumbnails": ["images/suitcase1.jpg", "images/suitcase2.jpg"]
+  },
+  {
+    "title": "Licuadora Potente",
+    "description": "Crea batidos, sopas y más con esta licuadora versátil.",
+    "price": 149.99,
+    "code": "MNO0123",
+    "status": true,
+    "stock": 65,
+    "category": "Cocina",
+    "thumbnails": ["images/blender1.jpg", "images/blender2.jpg"]
+  },
+  {
+    "title": "Silla de Lectura Cómoda",
+    "description": "Relájate en esta silla de lectura cómoda y de apoyo.",
+    "price": 299.99,
+    "code": "PQR3456",
+    "status": true,
+    "stock": 15,
+    "category": "Muebles",
+    "thumbnails": ["images/chair1.jpg", "images/chair2.jpg"]
+  },
+  {
+    "title": "Reloj Inteligente",
+    "description": "Mantente conectado y al tanto de tu salud con este reloj inteligente.",
+    "price": 249.99,
+    "code": "STU6789",
+    "status": true,
+    "stock": 50,
+    "category": "Electrónica",
+    "thumbnails": ["images/smartwatch1.jpg", "images/smartwatch2.jpg"]
+  },
+  {
+    "title": "Mesa de Centro de Madera",
+    "description": "Añade un toque de elegancia natural a tu sala de estar con esta mesa de centro hecha a mano.",
+    "price": 399.99,
+    "code": "VWX9012",
+    "status": true,
+    "stock": 10,
+    "category": "Muebles",
+    "thumbnails": ["images/coffeetable1.jpg", "images/coffeetable2.jpg"]
+  },
+  {
+    "title": "Tienda de Juego para Niños",
+    "description": "Crea un espacio divertido e imaginativo para tus hijos con esta tienda de juego para interiores.",
+    "price": 49.99,
+    "code": "YZA2345",
+    "status": true,
+    "stock": 70,
+    "category": "Juguetes",
+    "thumbnails": ["images/playtent1.jpg", "images/playtent2.jpg"]
+  },
+  {
+    "title": "Colección de Juegos de Mesa",
+    "description": "Disfruta de horas de diversión en familia con esta colección de juegos de mesa clásicos.",
+    "price": 59.99,
+    "code": "ABC5678",
+    "status": true,
+    "stock": 95,
+    "category": "Juegos",
+    "thumbnails": ["images/boardgames1.jpg", "images/boardgames2.jpg"]
+  },
+  {
+    "title": "Teclado Mecánico",
+    "description": "Experimenta la satisfacción del clic-clac de las teclas mecánicas con este teclado ergonómico.",
+    "price": 99.99,
+    "code": "DEF8901",
+    "status": true,
+    "stock": 30,
+    "category": "Electrónica",
+    "thumbnails": ["images/keyboard1.jpg", "images/keyboard2.jpg"]
+  },
+  {
+    "title": "Mochila Elegante",
+    "description": "Lleva tus esenciales con estilo con esta mochila versátil y duradera.",
+    "price": 79.99,
+    "code": "GHI1234",
+    "status": true,
+    "stock": 40,
+    "category": "Bolsos",
+    "thumbnails": ["images/backpack3.jpg", "images/backpack4.jpg"]
+  }
+]

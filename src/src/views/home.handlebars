@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        <div class="d-flex justify-content-center align-items-center my-4">
+            <h1 class="text-center">¡Bienvenido, {{username}}!</h1>
+        </div>
+
+        <h2 class="text-center my-4">Lista de productos</h2>
+        {{#if products.length}}
+        <div class="row">
+            {{#each products}}
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm text-center mt-auto">
+                    <img class="card-img-top img-fluid" src="{{thumbnails.[0]}}" alt="{{title}}"
+                        onerror="this.src='images/default-image.jpg'">
+                    <div class="card-body">
+                        <h5 class="card-title text-nowrap text-truncate">{{title}}</h5>
+                        <p class="card-text text-nowrap text-truncate">{{description}}</p>
+                        <p class="card-text text-nowrap text-truncate">Precio: ${{price}}</p>
+                        <p class="card-text text-nowrap text-truncate">Código: {{code}}</p>
+                        <p class="card-text text-nowrap text-truncate">Stock: {{stock}}</p>
+                        <p class="card-text text-nowrap text-truncate">Categoría: {{category}}</p>
+                        <p class="card-text text-nowrap text-truncate">Estado: {{#if
+                            status}}Activo{{else}}Inactivo{{/if}}</p>
+                        <form method="post" action="/api/carts/{{../cart}}/products/{{_id}}">
+                            <button type="submit" class="btn btn-primary">Agregar al carrito</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+        {{#if (gt totalPages 1)}}
+        <div class="d-flex justify-content-center mt-4">
+            {{#if hasPrevPage}}
+            <a href="?page={{prevPage}}" class="btn btn-secondary me-2">Anterior</a>
+            {{else}}
+            <span class="btn btn-secondary disabled me-2">Anterior</span>
+            {{/if}}
+            {{#if page}}
+            <p class="mb-0">Página {{page}} de {{totalPages}}</p>
+            {{/if}}
+            {{#if hasNextPage}}
+            <a href="?page={{nextPage}}" class="btn btn-secondary ms-2">Siguiente</a>
+            {{else}}
+            <span class="btn btn-secondary disabled ms-2">Siguiente</span>
+            {{/if}}
+        </div>
+        {{/if}}
+        {{else}}
+        <p class="text-center">No hay productos ingresados en el sistema.</p>
+        {{/if}}
+        <div class="d-flex justify-content-center mt-4"> 
+            <a href="/api/carts/{{cart}}/purchase/" class="btn btn-success">Finalizar compra</a>  <!-- FIXME: No el link, no se como obtener cartID -->
+
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+        </script>
+
+</body>
+
+</html>

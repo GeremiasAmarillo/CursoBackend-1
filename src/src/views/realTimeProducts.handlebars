@@ -1,0 +1,59 @@
+<div class="container">
+    <h1 class="text-center my-4">Productos en tiempo real</h1>
+    <div id="productsContainer" class="row d-flex flex-wrap justify-content-center text-center">
+        <!-- product cards go here -->
+    </div>
+    {{#if (gt totalPages 1)}}
+    <div id="paginationContainer" class="d-flex justify-content-center mt-4">
+        <!-- pagination controls go here -->
+    </div>
+    {{/if}}
+    <div class="form-container mt-4 p-4 border rounded">
+        <h2 class="text-center mb-4">Agregar producto</h2>
+        <form id="add-product-form" class="row g-3 form-section">
+            <div class="col-md-6">
+                <label for="title" class="form-label">Título:</label>
+                <input type="text" class="form-control" id="title" name="title" placeholder="Ingresa título" required>
+            </div>
+            <div class="col-md-6">
+                <label for="description" class="form-label">Descripción:</label>
+                <textarea class="form-control" id="description" name="description" placeholder="Ingresa descripción"
+                    required></textarea>
+            </div>
+            <div class="col-md-4">
+                <label for="price" class="form-label">Precio:</label>
+                <input type="number" class="form-control" id="price" name="price" placeholder="Ingresa precio" required>
+            </div>
+            <div class="col-md-4">
+                <label for="code" class="form-label">Código:</label>
+                <input type="text" class="form-control" id="code" name="code" placeholder="Ingresa código" required>
+            </div>
+            <div class="col-md-4">
+                <label for="stock" class="form-label">Stock:</label>
+                <input type="number" class="form-control" id="stock" name="stock" placeholder="Ingresa stock" required>
+            </div>
+            <div class="col-md-4">
+                <label for="category" class="form-label">Categoría:</label>
+                <input type="text" class="form-control" id="category" name="category" placeholder="Ingresa categoría"
+                    required>
+            </div>
+            <div class="col-md-4">
+                <label for="thumbnails" class="form-label">Imágenes:</label>
+                <input type="text" class="form-control" id="thumbnails" name="thumbnails"
+                    placeholder="URLs entre comillas y separadas por coma">
+            </div>
+            <div class="col-md-4">
+                <label for="status" class="form-label">Estado:</label>
+                <select class="form-control" id="status" name="status">
+                    <option value="true">Activo</option>
+                    <option value="false">Inactivo</option>
+                </select>
+            </div>
+            <div class="col-12 mt-3 text-center">
+                <button type="submit" class="btn btn-primary">Agregar producto</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+<script src="js/main.js"></script>
